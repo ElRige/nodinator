@@ -16,6 +16,7 @@ jobs:
 
     branches:
       only:
+        - master
         - feature-circleCI
 
     working_directory: ~/repo
