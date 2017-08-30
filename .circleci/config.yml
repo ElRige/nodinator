@@ -48,27 +48,25 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - run :
-          command: |
-            'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-            eval $(ssh-agent -s)
-            ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
-            mkdir -p ~/.ssh
-            '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-            scp working_directory $DEPLOYMENT_USER:$DEPLOYMENT_HOST:/var/www/prod_deploy
-            ssh $DEPLOYMENT_USER:$DEPLOYMENT_HOST
-            cd /var/www/prod_deploy
-            yarn install
-            yarn build --prod 
-            cp /var/www/prod/config.js ./
-            cd /var/www
-            mv ./prod ./prod_old
-            mv ./prod_deploy ./prod
-            cd prod
-            pm2 stop prod
-            pm2 start --name="prod"
-            cd /var/www ; rm -rf prod_old
-            echo "Well done !"
+      - run : 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+      - run : eval $(ssh-agent -s)
+      - run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
+      - run : mkdir -p ~/.ssh
+      - run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+      - run : scp working_directory $DEPLOYMENT_USER:$DEPLOYMENT_HOST:/var/www/prod_deploy
+      - run : ssh $DEPLOYMENT_USER:$DEPLOYMENT_HOST
+      - run : cd /var/www/prod_deploy
+      - run : yarn install
+      - run : yarn build --prod 
+      - run : cp /var/www/prod/config.js ./
+      - run : cd /var/www
+      - run : mv ./prod ./prod_old
+      - run : mv ./prod_deploy ./prod
+      - run : cd prod
+      - run : pm2 stop prod
+      - run : pm2 start --name="prod"
+      - run : cd /var/www ; rm -rf prod_old
+      - run : echo "Well done !"
         
 workflows:
   version: 2
