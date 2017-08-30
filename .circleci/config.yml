@@ -54,19 +54,8 @@ jobs:
       #- run : mkdir -p ~/.ssh
       #- run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
       - run : scp -o StrictHostKeyChecking=no -r ~/repo $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy 
-      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST
-      - run : cd /var/www/prod_deploy
-      - run : yarn install
-      - run : yarn build --prod 
-      - run : cp /var/www/prod/config.js ./
-      - run : cd /var/www
-      - run : mv ./prod ./prod_old
-      - run : mv ./prod_deploy ./prod
-      - run : cd prod
-      - run : pm2 stop prod
-      - run : pm2 start --name="prod"
-      - run : cd /var/www ; rm -rf prod_old
-      - run : echo "Well done !"
+      - run : scp -o StrictHostKeyChecking=no -r ~/repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
+      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh"
         
 workflows:
   version: 2
