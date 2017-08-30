@@ -9,6 +9,6 @@ mv ./prod ./prod_old
 mv ./prod_deploy ./prod
 cd prod
 pm2 stop prod
-pm2 start --name="prod"
+pm2 start server.js --name="prod"
 cd /var/www ; rm -rf prod_old
 echo "Well done !"
