@@ -48,12 +48,12 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - run : 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-      - run : eval $(ssh-agent -s)
-      - run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
-      - run : mkdir -p ~/.ssh
-      - run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-      - run : scp working_directory $DEPLOYMENT_USER:$DEPLOYMENT_HOST:/var/www/prod_deploy
+      #- run : 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+      #- run : eval $(ssh-agent -s)
+      #- run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
+      #- run : mkdir -p ~/.ssh
+      #- run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+      - run : scp -r working_directory $DEPLOYMENT_USER:$DEPLOYMENT_HOST:/var/www/prod_deploy
       - run : ssh $DEPLOYMENT_USER:$DEPLOYMENT_HOST
       - run : cd /var/www/prod_deploy
       - run : yarn install
