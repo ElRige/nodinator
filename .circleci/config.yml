@@ -31,10 +31,10 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      #- run: echo "build"
+      # run: echo "build"
 
       - run: yarn install
-      # - run: npm install
+      # run: npm install
       
       - save_cache:
           paths:
@@ -43,17 +43,3 @@ jobs:
         
       # run tests!
       - run: yarn test
-
-  test:
-    docker:
-      - image: circleci/node:7.10
-    branches:
-      only:
-        - master
-        - feature-circleCI
-    steps:
-      - checkout
-      #- run: echo "test"
-      - run: yarn install
-      - run: yarn test
-
