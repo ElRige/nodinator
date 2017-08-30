@@ -52,6 +52,27 @@ jobs:
 
 
 
+  test_stand:
+    docker:
+      - image: circleci/node:7.10
+
+    working_directory: ~/repo
+
+    steps:
+      - run : echo "Test stand no requires"
+      
+      
+  test_depend:
+    docker:
+      - image: circleci/node:7.10
+
+    working_directory: ~/repo
+
+    steps:
+      - run : echo "Test depend, need build and test_stand "  
+
+
+
 workflows:
   version: 2
   
@@ -64,6 +85,11 @@ workflows:
                 - master
                 - develop
                 - feature-circleCI
+      - test_stand
+      - test_depend:
+          requires:
+            - build
+            - test_stand
       - deploy:
           filters:
             tags:
@@ -71,5 +97,7 @@ workflows:
             branches:
               only:
                 - master
+          requires:
+            - build
               
         
