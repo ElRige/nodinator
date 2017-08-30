@@ -33,7 +33,7 @@ jobs:
 
       # run: echo "build"
 
-      - run: yarn install
+      #- run: yarn install
       # run: npm install
       
       - save_cache:
@@ -42,8 +42,9 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
         
       # run tests!
-      - run: yarn test
+      #- run: yarn test
       
+      - run: npm install -g @angular/cli
       - run: ng build
       
   test:
