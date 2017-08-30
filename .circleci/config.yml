@@ -53,8 +53,8 @@ jobs:
       #- run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
       #- run : mkdir -p ~/.ssh
       #- run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-      - run : scp -r working_directory $DEPLOYMENT_USER:$DEPLOYMENT_HOST:/var/www/prod_deploy
-      - run : ssh $DEPLOYMENT_USER:$DEPLOYMENT_HOST
+      - run : scp -r working_directory $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy
+      - run : ssh $DEPLOYMENT_USER@$DEPLOYMENT_HOST
       - run : cd /var/www/prod_deploy
       - run : yarn install
       - run : yarn build --prod 
