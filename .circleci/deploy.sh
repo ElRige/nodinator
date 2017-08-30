@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 cd /var/www/prod_deploy
 yarn install
 yarn build --prod 
