@@ -54,7 +54,7 @@ jobs:
       #- run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
       #- run : mkdir -p ~/.ssh
       #- run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-      - run : scp -o StrictHostKeyChecking=no -r ~/repo $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy 
+      - run : scp -o StrictHostKeyChecking=no -r ~/repo/ $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy
       - run : scp -o StrictHostKeyChecking=no -r ~/repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
       - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh"
         
