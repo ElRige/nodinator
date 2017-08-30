@@ -44,6 +44,8 @@ jobs:
       # run tests!
       - run: yarn test
       
+      - run: ng build
+      
   test:
     docker:
       - image: circleci/node:7.10
