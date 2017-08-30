@@ -48,6 +48,7 @@ jobs:
     working_directory: ~/repo
 
     steps:
+      - checkout
       #- run : 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
       #- run : eval $(ssh-agent -s)
       #- run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
