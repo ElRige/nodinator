@@ -48,14 +48,7 @@ jobs:
     working_directory: ~/repo
 
     steps:
-      - deploy
-          name: Deploy Master
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              echo "Deploy"
-            else
-              echo "No deploy, not master branch"
-            fi
+      - run : echo "Deploy"
 
 
 
