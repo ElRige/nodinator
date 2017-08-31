@@ -72,13 +72,7 @@ workflows:
   
   build_n_deploy:
     jobs:
-      - build:
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-                - feature-circleCI
+      - build
 
       - deploy_prod:
           requires:
@@ -86,6 +80,8 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
+            branches:
+              ignore: /.*/
 
       - deploy_preprod:
           requires:
@@ -94,7 +90,4 @@ workflows:
             branches:
               only:
                 - develop
-                - feature-circleCI
 
-              
-       
