@@ -51,7 +51,7 @@ jobs:
       - checkout
       - run : scp -o StrictHostKeyChecking=no -r ~/prod_repo/ $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy
       - run : scp -o StrictHostKeyChecking=no -r ~/prod_repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
-      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh prod"
+      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "/tmp/deploy.sh prod"
 
 
   deploy_preprod:
@@ -64,7 +64,7 @@ jobs:
       - checkout
       - run : scp -o StrictHostKeyChecking=no -r ~/preprod_repo/ $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/preprod_deploy
       - run : scp -o StrictHostKeyChecking=no -r ~/preprod_repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
-      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh preprod"
+      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "/tmp/deploy.sh preprod"
 
         
 workflows:
