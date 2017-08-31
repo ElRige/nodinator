@@ -45,18 +45,27 @@ jobs:
     docker:
       - image: circleci/node:7.10
 
-    working_directory: ~/repo
+    working_directory: ~/prod_repo
 
     steps:
       - checkout
-      #- run : 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
-      #- run : eval $(ssh-agent -s)
-      #- run : ssh-add <(echo "$DEPLOYMENT_PRIVATE_KEY")
-      #- run : mkdir -p ~/.ssh
-      #- run : '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
-      - run : scp -o StrictHostKeyChecking=no -r ~/repo/ $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy
-      - run : scp -o StrictHostKeyChecking=no -r ~/repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
-      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh"
+      - run : scp -o StrictHostKeyChecking=no -r ~/prod_repo/ $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/prod_deploy
+      - run : scp -o StrictHostKeyChecking=no -r ~/prod_repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
+      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh prod"
+
+
+  deploy_preprod:
+    docker:
+      - image: circleci/node:7.10
+
+    working_directory: ~/preprod_repo
+
+    steps:
+      - checkout
+      - run : scp -o StrictHostKeyChecking=no -r ~/preprod_repo/ $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/var/www/preprod_deploy
+      - run : scp -o StrictHostKeyChecking=no -r ~/preprod_repo/.circleci/deploy.sh $DEPLOYMENT_USER@$DEPLOYMENT_HOST:/tmp/
+      - run : ssh -o StrictHostKeyChecking=no $DEPLOYMENT_USER@$DEPLOYMENT_HOST "sh /tmp/deploy.sh preprod"
+
         
 workflows:
   version: 2
@@ -75,11 +84,20 @@ workflows:
           requires:
             - build
           filters:
-            #tags:
-            #  only: /^release-.*/
+            tags:
+              only: /^release-.*/
             branches:
               only:
                 - master
+                - feature-circleCI
+
+      - deploy_preprod:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - develop
                 - feature-circleCI
 
               
