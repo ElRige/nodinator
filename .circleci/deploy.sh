@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 
-cd /var/www/prod_deploy
+env=$1
+
+cd /var/www/${env}_deploy
 yarn install
 yarn build --prod 
-cp /var/www/prod/config.js ./
+cp /var/www/${env}/config.js ./
 cd /var/www
-mv ./prod ./prod_old
-mv ./prod_deploy ./prod
-cd prod
-pm2 stop prod
-pm2 start server.js --name="prod"
-cd /var/www ; rm -rf prod_old
-echo "Well done !"
+mv ./${env} ./${env}_old
+mv ./${env}_deploy ./${env}
+cd ${env}
+pm2 stop ${env}
+pm2 start server.js --name="${env}"
+cd /var/www ; rm -rf ${env}_old
+echo "Well done ! ${env} Start"
