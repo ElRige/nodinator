@@ -86,10 +86,6 @@ workflows:
           filters:
             tags:
               only: /^release-.*/
-            branches:
-              only:
-                - master
-                - feature-circleCI
 
       - deploy_preprod:
           requires:
